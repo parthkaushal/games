@@ -1,4 +1,4 @@
-let { init, Sprite, GameLoop, initPointer, setImagePath, load, imageAssets, Button } = kontra
+let { init, Sprite, GameLoop, initPointer, setImagePath, load, imageAssets, Button, SpriteSheet } = kontra
 
 
 let { canvas } = init();
@@ -41,16 +41,18 @@ load('blue_button02.png', 'blue_button03.png').then(() => {
   });
 })
 
+let image = new Image();
+image.src = 'images/player.png';
+
+
 let sprite = Sprite({
   x: getRandom(window.innerWidth),        // starting x,y position of the sprite
   y: getRandom(window.innerHeight),
-  color: 'gold',  // fill color of the sprite rectangle
-  width: 20,     // width and height of the sprite rectangle
-  height: 40,
-  dx: 2          // move the sprite 2px to the right every frame
+  dx: 2,          // move the sprite 2px to the right every frame
+  image: image
 });
 
-let colorList = ["violet", "indigo", "blue", "green", "yellow", "orange", "red"]
+// let colorList = ["violet", "indigo", "blue", "green", "yellow", "orange", "red"]
 
 let loop = GameLoop({  // create the main game loop
   update: function() { // update the game state
@@ -66,7 +68,7 @@ let loop = GameLoop({  // create the main game loop
     // the edge of the screen
     if (sprite.x > canvas.width) {
       sprite.x = -sprite.width;
-      sprite.color = colorList[getRandom(7)];
+      // sprite.color = colorList[getRandom(7)];
       
     }
   },
@@ -104,4 +106,3 @@ function counter(){
   }
   return c
 }
-
