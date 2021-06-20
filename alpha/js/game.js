@@ -1,9 +1,9 @@
-let { init, Sprite, GameLoop, initPointer, setImagePath, load, imageAssets, Button, SpriteSheet } = kontra
+let { init, Sprite, GameLoop, initPointer, setImagePath, load, imageAssets, Button, SpriteSheet, setAudioPath, audioAssets } = kontra
 
 
 let { canvas } = init();
-canvas.width = window.innerWidth
-canvas.height = window.innerHeight
+canvas.width = window.innerWidth - 20
+canvas.height = window.innerHeight - 20
 
 // must call this to have pointer events work
 initPointer();
@@ -11,39 +11,16 @@ initPointer();
 let button
 let startFlag = false
 
+load('/audio/music.mp3').then(function() {
+  // Audio asset can be accessed by both
+  // name: audioAssets['/audio/music']
+  // path: audioAssets['/audio/music.ogg']
+});
+
 setImagePath('images');
-load('blue_button02.png', 'blue_button03.png').then(() => {
-    button = Button({
-    // sprite properties
-    x: 300,
-    y: 100,
-    anchor: {x: 0.5, y: 0.5},
-    image: imageAssets['blue_button02'],
-
-    // text properties
-    text: {
-      text: 'Click me',
-      color: 'white',
-      font: '20px Arial, sans-serif',
-      anchor: {x: 0.5, y: 0.5}
-    },
-
-    // pointer events
-    onDown() {
-      this.image = imageAssets['blue_button03'];
-      this.y += 5;
-      startFlag = true
-    },
-    onUp() {
-      this.image = imageAssets['blue_button02']
-      this.y -= 5;
-    }
-  });
-})
 
 let image = new Image();
 image.src = 'images/player.png';
-
 
 let sprite = Sprite({
   x: getRandom(window.innerWidth),        // starting x,y position of the sprite
@@ -82,7 +59,38 @@ let loop = GameLoop({  // create the main game loop
   }
 });
 
+load('blue_button02.png', 'blue_button03.png').then(() => {
+  button = Button({
+  // sprite properties
+  x: window.innerWidth / 2,
+  y: window.innerHeight / 2,
+  anchor: {x: 0.5, y: 0.5},
+  image: imageAssets['blue_button02'],
+
+  // text properties
+  text: {
+    text: 'Start Game',
+    color: 'white',
+    font: '20px Arial, sans-serif',
+    anchor: {x: 0.5, y: 0.5}
+  },
+
+  // pointer events
+  onDown() {
+    this.image = imageAssets['blue_button03'];
+    this.y += 5;
+  },
+  onUp() {
+    this.image = imageAssets['blue_button02']
+    this.y -= 5;
+    audioAssets['/audio/music'].play();
+    startFlag = true
+}
+});
 loop.start();    // start the game
+})
+
+
 
 
 function changeCanvasSize(){
