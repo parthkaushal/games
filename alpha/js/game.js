@@ -1,8 +1,45 @@
-let { init, Sprite, GameLoop } = kontra
+let { init, Sprite, GameLoop, initPointer, setImagePath, load, imageAssets, Button } = kontra
+
 
 let { canvas } = init();
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
+
+// must call this to have pointer events work
+initPointer();
+
+let button
+let startFlag = false
+
+setImagePath('images');
+load('blue_button02.png', 'blue_button03.png').then(() => {
+    button = Button({
+    // sprite properties
+    x: 300,
+    y: 100,
+    anchor: {x: 0.5, y: 0.5},
+    image: imageAssets['blue_button02'],
+
+    // text properties
+    text: {
+      text: 'Click me',
+      color: 'white',
+      font: '20px Arial, sans-serif',
+      anchor: {x: 0.5, y: 0.5}
+    },
+
+    // pointer events
+    onDown() {
+      this.image = imageAssets['blue_button03'];
+      this.y += 5;
+      startFlag = true
+    },
+    onUp() {
+      this.image = imageAssets['blue_button02']
+      this.y -= 5;
+    }
+  });
+})
 
 let sprite = Sprite({
   x: getRandom(window.innerWidth),        // starting x,y position of the sprite
@@ -34,7 +71,12 @@ let loop = GameLoop({  // create the main game loop
     }
   },
   render: function() { // render the game state
-    sprite.render();
+    if (!startFlag)
+      button.render();
+    if (startFlag){
+      sprite.render();
+      // Button.destroy()
+    }
   }
 });
 
