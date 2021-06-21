@@ -13,13 +13,8 @@ let startFlag = false
 let stopButton
 let count = 0
 
-load('/audio/music.mp3').then(function() {
-  // Audio asset can be accessed by both
-  // name: audioAssets['/audio/music']
-  // path: audioAssets['/audio/music.ogg']
-});
-
 setImagePath('images');
+setAudioPath('audio');
 
 let image = new Image();
 image.src = 'images/player.png';
@@ -52,7 +47,7 @@ let sprite = Sprite({
 
 track(sprite);
 
-load('blue_button02.png', 'blue_button03.png').then(() => {
+load('blue_button02.png', 'blue_button03.png', ["music.mp3"]).then(() => {
   startButton = Button({
   // sprite properties
   x: window.innerWidth / 2,
@@ -76,7 +71,7 @@ load('blue_button02.png', 'blue_button03.png').then(() => {
   onUp() {
     this.image = imageAssets['blue_button02']
     this.y -= 5;
-    audioAssets['/audio/music'].play();
+    audioAssets['music'].play();
     startFlag = true
 }
 });
@@ -94,7 +89,7 @@ stopButton = Button({
     text: 'End Game',
     color: 'white',
     font: '20px Arial, sans-serif',
-    anchor: {x: 0.5, y: 0.5}
+    anchor: {x: 0.5, y: 0.5},
   },
 
   // pointer events
