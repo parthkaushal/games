@@ -52,7 +52,7 @@ gameScene.create = function() {
     setXY: {
       x: 90,
       y: 100,
-      stepX: 80,
+      stepX: 85,
       stepY: 20
     }
   });
@@ -91,6 +91,7 @@ gameScene.update = function(){
 
   if(Phaser.Geom.Intersects.RectangleToRectangle(playerRect, treasureRect)) {
     console.log('reached goal!');
+    alert("You won the game")
 
     // end game
     return this.gameOver();
