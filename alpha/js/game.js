@@ -19,35 +19,9 @@ setAudioPath('audio');
 let image = new Image();
 image.src = 'images/player.png';
 
-let sprite = Sprite({
-  x: getRandom(window.innerWidth),        // starting x,y position of the sprite
-  y: getRandom(window.innerHeight),
-  dx: 2,          // move the sprite 2px to the right every frame
-  image: image,
-  onDown: function() {
-    // handle on down events on the sprite
-    count++
-    console.log("onDown:" + count)
 
-    
-  },
-  onUp: function() {
-    // handle on up events on the sprite
-    // console.log("onUp")
-  },
-  onOver: function() {
-    // handle on over events on the sprite
-    // console.log("onOver")
-  },
-  onOut: function() {
-    // handle on out events on the sprite
-    // console.log("onOut")
-  }
-});
 
-track(sprite);
-
-load('blue_button02.png', 'blue_button03.png', ["music.mp3"]).then(() => {
+load('blue_button02.png', 'blue_button03.png', [ 'hit.mp3']).then(() => {
   startButton = Button({
   // sprite properties
   x: window.innerWidth / 2,
@@ -71,7 +45,7 @@ load('blue_button02.png', 'blue_button03.png', ["music.mp3"]).then(() => {
   onUp() {
     this.image = imageAssets['blue_button02']
     this.y -= 5;
-    audioAssets['music'].play();
+    // audioAssets['music'].play();
     startFlag = true
 }
 });
@@ -104,9 +78,35 @@ stopButton = Button({
     startFlag = false
 }
 });
-
-
 })
+
+let sprite = Sprite({
+  x: getRandom(window.innerWidth),        // starting x,y position of the sprite
+  y: getRandom(window.innerHeight),
+  dx: 2,          // move the sprite 2px to the right every frame
+  image: image,
+  onDown: function() {
+    // handle on down events on the sprite
+    count++
+    console.log("onDown:" + count)
+    audioAssets['hit'].play();
+    
+  },
+  onUp: function() {
+    // handle on up events on the sprite
+    // console.log("onUp")
+  },
+  onOver: function() {
+    // handle on over events on the sprite
+    // console.log("onOver")
+  },
+  onOut: function() {
+    // handle on out events on the sprite
+    // console.log("onOut")
+  }
+});
+
+track(sprite);
 
 
 
