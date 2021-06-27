@@ -39,6 +39,15 @@ gameScene.create = function() {
     gameObject.y = dragY;
   });
 
+  this.click = this.sound.add('click');
+  this.munch = this.sound.add('munch');
+  this.lick = this.sound.add('lick');
+  this.quack = this.sound.add('quack');
+  this.spin = this.sound.add('spin');
+  this.die = this.sound.add('die');
+
+  this.endCount = 0
+
   // create ui
   this.createUi();
 
@@ -110,6 +119,9 @@ gameScene.rotatePet = function() {
   // block the ui
   this.scene.uiBlocked = true;
 
+  //dance audio
+  this.scene.spin.play();
+
   // dim the rotate icon
   this.alpha = 0.5;
 
@@ -173,6 +185,9 @@ gameScene.placeItem = function(pointer, localX, localY) {
   // ui must be unblocked
   if (this.uiBlocked) return;
 
+  //play audio//
+  this.click.play();
+
   // create a new item in the position the player clicked/tapped
   let newItem = this.add.sprite(localX, localY, this.selectedItem.texture.key);
 
@@ -205,6 +220,16 @@ gameScene.placeItem = function(pointer, localX, localY) {
       // play spritesheet animation
       this.pet.play('funnyfaces');
 
+      if(this.selectedItem.texture.key == "apple"){
+        this.munch.play();
+      }
+      else if(this.selectedItem.texture.key == "candy"){
+        this.lick.play();
+      }
+      else if(this.selectedItem.texture.key == "toy"){
+        this.quack.play();
+      }
+
       // update stats
       this.updateStats(this.selectedItem.customStats);
     }
@@ -234,6 +259,7 @@ gameScene.refreshHud = function(){
 
 // stat updater
 gameScene.updateStats = function(statDiff) {
+  console.log("update stats")
   // manually update each stat
   // this.stats.health += statDiff.health;
   // this.stats.fun += statDiff.fun;
@@ -258,15 +284,25 @@ gameScene.updateStats = function(statDiff) {
   this.refreshHud();
 
   // check to see if the game ended
-  if(isGameOver) this.gameOver();
+  if(isGameOver) {
+   this.endCount ++
+   this.gameOver();
+  }
 };
 
 gameScene.gameOver = function() {
+  console.log("game over")
   // block ui
   this.uiBlocked = true;
 
+    //die audio
+    if(this.endCount==1)
+      this.die.play();
+
   // change frame of the pet
   this.pet.setFrame(4);
+
+
 
   // keep the game on for a some time, the move on
   this.time.addEvent({

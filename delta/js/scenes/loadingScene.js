@@ -40,6 +40,13 @@ loadingScene.preload = function() {
   this.load.image('rotate', 'assets/images/rotate.png');
   this.load.image('toy', 'assets/images/rubber_duck.png');
 
+  this.load.audio('click', 'assets/audio/click.mp3');
+  this.load.audio('munch', 'assets/audio/munch.mp3');
+  this.load.audio('lick', 'assets/audio/lick.mp3');
+  this.load.audio('quack', 'assets/audio/quack.mp3');
+  this.load.audio('spin', 'assets/audio/spin.mp3');
+  this.load.audio('die', 'assets/audio/die.mp3');
+
   // load spritesheet
   this.load.spritesheet('pet', 'assets/images/pet.png', {
     frameWidth: 97,
