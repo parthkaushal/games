@@ -5,7 +5,7 @@ let gameScene = new Phaser.Scene('Game');
 gameScene.init = function() {
   // word database
   this.words = [{
-      key: 'building',
+      key: 'eat',
       setXY: {
         x: 100,
         y: 240
@@ -51,15 +51,15 @@ gameScene.init = function() {
 gameScene.preload = function() {
   // load images
   this.load.image('background', 'assets/images/background-city.png');
-  this.load.image('building', 'assets/images/eat.png');
+  this.load.image('eat', 'assets/images/eat.png');
   this.load.image('car', 'assets/images/car.png');
   this.load.image('house', 'assets/images/house.png');
   this.load.image('tree', 'assets/images/tree.png');
 
-  this.load.audio('treeAudio', 'assets/audio/arbol.mp3');
-  this.load.audio('carAudio', 'assets/audio/auto.mp3');
-  this.load.audio('houseAudio', 'assets/audio/casa.mp3');
-  this.load.audio('buildingAudio', 'assets/audio/eat.mp3');
+  this.load.audio('treeAudio', 'assets/audio/tree.mp3');
+  this.load.audio('carAudio', 'assets/audio/car.mp3');
+  this.load.audio('houseAudio', 'assets/audio/house.mp3');
+  this.load.audio('eatAudio', 'assets/audio/eat.mp3');
   this.load.audio('correct', 'assets/audio/correct.mp3');
   this.load.audio('wrong', 'assets/audio/wrong.mp3');
 };
