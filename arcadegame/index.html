@@ -52,6 +52,9 @@ function preload ()
     this.load.image('bomb', 'assets/bomb.png');
     this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
     this.load.image("restartBtn","assets/restart.png");
+    this.load.audio("gameOverSound","assets/gameOver.mp3");
+    this.load.audio("starSound","assets/star.mp3");
+    this.load.audio("jumpSound","assets/jump.mp3");
 }
 
 function create ()
@@ -146,6 +149,10 @@ function create ()
             gameOverText.setVisible(false);
         }
     });
+
+    gameOverSound = this.sound.add("gameOverSound");
+    starSound = this.sound.add("starSound");
+    jumpSound = this.sound.add("jumpSound");
 }
 
 function update ()
@@ -177,6 +184,8 @@ function update ()
     if (cursors.up.isDown && player.body.touching.down)
     {
         player.setVelocityY(-330);
+
+        jumpSound.play();
     }
 }
 
@@ -187,6 +196,8 @@ function collectStar (player, star)
     //  Add and update the score
     score += 10;
     scoreText.setText('Score: ' + score);
+
+    starSound.play();
 
     if (stars.countActive(true) === 0)
     {
@@ -217,6 +228,8 @@ function hitBomb (player, bomb)
     player.anims.play('turn');
 
     gameOver = true;
+
+    gameOverSound.play();
 
     restartButton.setVisible(true);
 
