@@ -51,6 +51,7 @@ function preload ()
     this.load.image('star', 'assets/star.png');
     this.load.image('bomb', 'assets/bomb.png');
     this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
+    this.load.image("restartBtn","assets/restart.png");
 }
 
 function create ()
@@ -129,6 +130,22 @@ function create ()
     this.physics.add.overlap(player, stars, collectStar, null, this);
 
     this.physics.add.collider(player, bombs, hitBomb, null, this);
+
+    //  Restart Button
+     restartButton = this.add.image(400,350,"restartBtn")
+  .setInteractive()
+  .setVisible(false);
+
+    restartButton.on("pointerdown",()=>{
+        this.scene.restart();
+        score = 0;
+        gameOver = false;
+        scoreText.setText('Score: ' + score);
+        restartButton.setVisible(false);
+        if (gameOverText) {
+            gameOverText.setVisible(false);
+        }
+    });
 }
 
 function update ()
@@ -200,6 +217,8 @@ function hitBomb (player, bomb)
     player.anims.play('turn');
 
     gameOver = true;
+
+    restartButton.setVisible(true);
 
     gameOverText = this.add.text(400, 300, 'Game Over', { fontSize: '64px', fill: '#000' });
     gameOverText.setOrigin(0.5);
