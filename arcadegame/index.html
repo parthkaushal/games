@@ -14,10 +14,24 @@
 
 <script type="text/javascript">
 
+var player;
+var stars;
+var bombs;
+var platforms;
+var cursors;
+var score = 0;
+var gameOver = false;
+var scoreText;
+var gameOverText;
+var width = window.innerWidth;
+var height = window.innerHeight;
+
 var config = {
     type: Phaser.AUTO,
-    width: 800,
-    height: 600,
+    // width: 800,
+    width: width,
+    // height: 600,
+    height: height,
     physics: {
         default: 'arcade',
         arcade: {
@@ -32,15 +46,6 @@ var config = {
     }
 };
 
-var player;
-var stars;
-var bombs;
-var platforms;
-var cursors;
-var score = 0;
-var gameOver = false;
-var scoreText;
-var gameOverText;
 
 var game = new Phaser.Game(config);
 
@@ -60,19 +65,28 @@ function preload ()
 function create ()
 {
     //  A simple background for our game
-    this.add.image(400, 300, 'sky');
+    // this.add.image(400, 300, 'sky');
+    this.add.image(width, height, 'sky').setScale(8).setOrigin(0.5,0.5);
 
     //  The platforms group contains the ground and the 2 ledges we can jump on
     platforms = this.physics.add.staticGroup();
 
     //  Here we create the ground.
     //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-    platforms.create(400, 568, 'ground').setScale(2).refreshBody();
+    // platforms.create(400, 568, 'ground').setScale(2).refreshBody();
+    platforms.create(400, height - 32, 'ground').setScale(12).refreshBody();
 
     //  Now let's create some ledges
-    platforms.create(600, 400, 'ground');
-    platforms.create(50, 250, 'ground');
-    platforms.create(750, 220, 'ground');
+    // platforms.create(600, 400, 'ground');
+    // platforms.create(50, 250, 'ground');
+    // platforms.create(750, 220, 'ground');
+
+    platforms.create(600, height - 350, 'ground');
+    platforms.create(50, height - 450, 'ground');
+    platforms.create(750, height - 550, 'ground');
+    platforms.create(1350, height - 700, 'ground');
+    platforms.create(1700, height - 500, 'ground');
+    platforms.create(2400, height - 500, 'ground');
 
     // The player and its settings
     player = this.physics.add.sprite(100, 450, 'dude');
@@ -108,8 +122,8 @@ function create ()
     //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
     stars = this.physics.add.group({
         key: 'star',
-        repeat: 11,
-        setXY: { x: 12, y: 0, stepX: 70 }
+        repeat: 33,
+        setXY: { x: 12, y: 0, stepX: 100 }
     });
 
     stars.children.iterate(function (child) {
