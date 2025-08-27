@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Phaser 4 Beta 7 Game</title>
+  <!-- Use the latest beta from the official CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/phaser@4.0.0-rc.5/dist/phaser.js"></script>
+  <style>
+    body { margin: 0; background: #222; }
+    canvas { display: block; margin: 0 auto; }
+  </style>
+</head>
+<body>
+<script>
+class MainScene extends Phaser.Scene {
+  preload() {
+    // Basic graphics - colored rectangles
+    this.load.image('player', 'https://dummyimage.com/40x40/08f/fff.png&text=P');
+    this.load.image('object', 'https://dummyimage.com/30x30/f44/fff.png&text=O');
+  }
+  create() {
+    this.score = 0;
+    this.player = this.physics.add.sprite(200, 350, 'player').setCollideWorldBounds(true);
+    this.fallingObject = this.physics.add.sprite(Phaser.Math.Between(25, 375), 0, 'object');
+    this.fallingObject.setVelocityY(200);
+
+    this.scoreText = this.add.text(10, 10, 'Score: 0', { font: '20px Arial', fill: '#fff' });
+
+    this.physics.add.overlap(this.player, this.fallingObject, this.catchObject, null, this);
+
+    this.cursors = this.input.keyboard.createCursorKeys();
+  }
+  update() {
+    if (this.cursors.left.isDown) {
+      this.player.setVelocityX(-250);
+    } else if (this.cursors.right.isDown) {
+      this.player.setVelocityX(250);
+    } else {
+      this.player.setVelocityX(0);
+    }
+
+    if (this.fallingObject.y > 400) this.resetFallingObject();
+  }
+  catchObject() {
+    this.score += 10;
+    this.scoreText.setText('Score: ' + this.score);
+    this.resetFallingObject();
+  }
+  resetFallingObject() {
+    this.fallingObject.y = 0;
+    this.fallingObject.x = Phaser.Math.Between(25, 375);
+  }
+}
+
+const config = {
+  type: Phaser.AUTO,
+  width: 400,
+  height: 400,
+  backgroundColor: '#444',
+  physics: { default: 'arcade', arcade: { gravity: { y: 0 } } },
+  scene: MainScene
+};
+
+new Phaser.Game(config);
+</script>
+</body>
+</html>
